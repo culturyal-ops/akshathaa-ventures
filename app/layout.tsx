@@ -18,7 +18,7 @@ export default function RootLayout({
     <html lang="en" suppressHydrationWarning>
       <body>
         <Navbar />
-        <main className="min-h-screen">{children}</main>
+        {children}
         <Footer />
         <WhatsAppButton />
       </body>
