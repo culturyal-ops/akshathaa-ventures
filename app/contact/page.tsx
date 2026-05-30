@@ -38,7 +38,7 @@ export default function ContactPage() {
     <div className="min-h-screen bg-[#FAF8F5]">
 
       {/* ── Header ── */}
-      <section className="relative pt-36 pb-16 bg-[#1A1614] overflow-hidden">
+      <section className="relative pt-40 pb-20 bg-[#1A1614] overflow-hidden">
         <div className="absolute inset-0 z-0">
           <img
             src="https://images.unsplash.com/photo-1600607687920-4e2a09cf159d?w=1920&q=80"
@@ -51,7 +51,7 @@ export default function ContactPage() {
             <span className="gold-line" />
             <span className="section-label block mb-4">We'd Love to Hear From You</span>
             <h1
-              className="text-6xl lg:text-7xl text-white"
+              className="text-5xl lg:text-7xl text-white"
               style={{ fontFamily: 'Playfair Display, serif' }}
             >
               Get in Touch
@@ -60,7 +60,7 @@ export default function ContactPage() {
         </div>
       </section>
 
-      <div className="max-w-[1400px] mx-auto px-6 lg:px-12 py-20 lg:py-28">
+      <div className="max-w-[1400px] mx-auto px-6 lg:px-12 py-20">
         <div className="grid lg:grid-cols-5 gap-16 lg:gap-20">
 
           {/* ── Form ── */}
@@ -121,7 +121,7 @@ export default function ContactPage() {
                       value={formData.phone}
                       onChange={(e) => { setFormData({ ...formData, phone: e.target.value }); setErrors({}); }}
                       className={`w-full px-5 py-4 bg-[#F0EBE3] border ${errors.phone ? 'border-red-400' : 'border-[#C9A96E]/20'} focus:outline-none focus:border-[#C9A96E] text-sm transition-colors`}
-                      placeholder="9876543210"
+                      placeholder="Your 10-digit mobile number"
                       style={{ fontFamily: 'DM Sans, sans-serif' }}
                     />
                     {errors.phone && (
