@@ -206,35 +206,61 @@ button { font-family: inherit; cursor: pointer; }
   color: var(--cream);
   border: 1px solid var(--black);
 }
-.btn-primary:hover { background: var(--charcoal); border-color: var(--charcoal); }
+.btn-primary:hover {
+  background: var(--charcoal);
+  border-color: var(--charcoal);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(10,10,10,0.18);
+}
 
 .btn-gold {
   background: var(--gold);
   color: var(--black);
   border: 1px solid var(--gold);
 }
-.btn-gold:hover { background: var(--gold-dark); border-color: var(--gold-dark); }
+.btn-gold:hover {
+  background: var(--gold-dark);
+  border-color: var(--gold-dark);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(201,169,110,0.3);
+}
 
 .btn-outline {
   background: transparent;
   color: var(--black);
   border: 1px solid var(--black);
 }
-.btn-outline:hover { background: var(--black); color: var(--cream); }
+.btn-outline:hover {
+  background: var(--black);
+  color: var(--cream);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(10,10,10,0.12);
+}
 
 .btn-outline-light {
   background: transparent;
   color: var(--cream);
   border: 1px solid rgba(248,245,240,0.35);
 }
-.btn-outline-light:hover { background: var(--cream); color: var(--black); border-color: var(--cream); }
+.btn-outline-light:hover {
+  background: var(--cream);
+  color: var(--black);
+  border-color: var(--cream);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(248,245,240,0.15);
+}
 
 .btn-outline-gold {
   background: transparent;
   color: var(--gold);
   border: 1px solid var(--gold);
 }
-.btn-outline-gold:hover { background: var(--gold); color: var(--black); }
+.btn-outline-gold:hover {
+  background: var(--gold);
+  color: var(--black);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(201,169,110,0.25);
+}
 
 /* Legacy aliases — expanded inline */
 .btn-elegant {
@@ -254,7 +280,7 @@ button { font-family: inherit; cursor: pointer; }
   cursor: pointer;
   transition: all var(--duration) var(--ease);
 }
-.btn-elegant:hover { background: var(--black); color: var(--cream); }
+.btn-elegant:hover { background: var(--black); color: var(--cream); transform: translateY(-2px); box-shadow: 0 6px 20px rgba(10,10,10,0.12); }
 .btn-dark {
   background: var(--black);
   color: var(--cream);
@@ -324,6 +350,10 @@ button { font-family: inherit; cursor: pointer; }
   from { opacity: 0; }
   to   { opacity: 1; }
 }
+@keyframes goldReveal {
+  from { transform: scaleX(0); opacity: 0; }
+  to   { transform: scaleX(1); opacity: 1; }
+}
 @keyframes shimmer {
   0%   { background-position: -600px 0; }
   100% { background-position: 600px 0; }
@@ -364,10 +394,10 @@ button { font-family: inherit; cursor: pointer; }
 
 /* ─── LEGACY COMPAT ──────────────────────────────────────────────────── */
 .section-label { font-family: var(--font-body); font-size: 11px; font-weight: 600; letter-spacing: 0.18em; text-transform: uppercase; color: var(--gold); }
-.gold-line { display: block; width: 32px; height: 1px; background: var(--gold); margin-bottom: 24px; }
-.gold-line-center { display: block; width: 32px; height: 1px; background: var(--gold); margin: 0 auto 24px; }
-.gold-rule { display: block; width: 32px; height: 1px; background: var(--gold); margin-bottom: 24px; }
-.gold-rule-center { display: block; width: 32px; height: 1px; background: var(--gold); margin: 0 auto 24px; }
+.gold-line { display: block; width: 32px; height: 1px; background: var(--gold); margin-bottom: 24px; transform-origin: left; animation: goldReveal 0.9s cubic-bezier(0.16,1,0.3,1) both; }
+.gold-line-center { display: block; width: 32px; height: 1px; background: var(--gold); margin: 0 auto 24px; transform-origin: center; animation: goldReveal 0.9s cubic-bezier(0.16,1,0.3,1) both; }
+.gold-rule { display: block; width: 32px; height: 1px; background: var(--gold); margin-bottom: 24px; transform-origin: left; animation: goldReveal 0.9s cubic-bezier(0.16,1,0.3,1) both; }
+.gold-rule-center { display: block; width: 32px; height: 1px; background: var(--gold); margin: 0 auto 24px; transform-origin: center; animation: goldReveal 0.9s cubic-bezier(0.16,1,0.3,1) both; }
 .hover-lift { transition: transform var(--duration) var(--ease), box-shadow var(--duration) var(--ease); }
 .hover-lift:hover { transform: translateY(-4px); box-shadow: var(--shadow-xl); }
 .property-card-hover { transition: transform var(--duration) var(--ease), box-shadow var(--duration) var(--ease); }
@@ -388,11 +418,11 @@ button { font-family: inherit; cursor: pointer; }
 .text-lead { font-family: var(--font-body); font-size: clamp(15px, 1.2vw, 17px); font-weight: 400; line-height: 1.75; color: var(--stone); }
 .text-gold-gradient { background: linear-gradient(120deg, var(--gold-light) 0%, var(--gold) 50%, var(--gold-dark) 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
 .btn-gold-outline { background: transparent; color: var(--gold); border: 1px solid var(--gold); display: inline-flex; align-items: center; justify-content: center; gap: 8px; padding: 14px 32px; font-family: var(--font-body); font-size: 12px; font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase; cursor: pointer; transition: all var(--duration) var(--ease); }
-.btn-gold-outline:hover { background: var(--gold); color: var(--black); }
+.btn-gold-outline:hover { background: var(--gold); color: var(--black); transform: translateY(-2px); box-shadow: 0 6px 20px rgba(201,169,110,0.25); }
 .btn-primary { background: var(--black); color: var(--cream); border: 1px solid var(--black); display: inline-flex; align-items: center; justify-content: center; gap: 8px; padding: 14px 32px; font-family: var(--font-body); font-size: 12px; font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase; cursor: pointer; transition: all var(--duration) var(--ease); }
-.btn-primary:hover { background: var(--charcoal); }
+.btn-primary:hover { background: var(--charcoal); transform: translateY(-2px); box-shadow: 0 6px 20px rgba(10,10,10,0.18); }
 .btn-outline { background: transparent; color: var(--black); border: 1px solid var(--black); display: inline-flex; align-items: center; justify-content: center; gap: 8px; padding: 14px 32px; font-family: var(--font-body); font-size: 12px; font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase; cursor: pointer; transition: all var(--duration) var(--ease); }
-.btn-outline:hover { background: var(--black); color: var(--cream); }
+.btn-outline:hover { background: var(--black); color: var(--cream); transform: translateY(-2px); box-shadow: 0 6px 20px rgba(10,10,10,0.12); }
 .btn-outline-light { background: transparent; color: var(--cream); border: 1px solid rgba(248,245,240,0.35); display: inline-flex; align-items: center; justify-content: center; gap: 8px; padding: 14px 32px; font-family: var(--font-body); font-size: 12px; font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase; cursor: pointer; transition: all var(--duration) var(--ease); }
-.btn-outline-light:hover { background: var(--cream); color: var(--black); }
+.btn-outline-light:hover { background: var(--cream); color: var(--black); transform: translateY(-2px); box-shadow: 0 6px 20px rgba(248,245,240,0.15); }
 .btn { display: inline-flex; align-items: center; justify-content: center; gap: 8px; padding: 14px 32px; font-family: var(--font-body); font-size: 12px; font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase; cursor: pointer; transition: all var(--duration) var(--ease); border: none; }

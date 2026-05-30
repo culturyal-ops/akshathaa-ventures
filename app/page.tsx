@@ -1,9 +1,9 @@
 'use client';
-import { useState, useEffect, useRef, useCallback } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import Link from 'next/link';
 import { motion, AnimatePresence, useScroll, useTransform, useInView, useMotionValue, animate } from 'framer-motion';
 import { MapPin, Search, MoveRight, ArrowDown, ChevronRight, Star, Shield, Clock, Home } from 'lucide-react';
-import AnimateIn from '@/components/AnimateIn';
+import AnimateIn, { LuxuryReveal } from '@/components/AnimateIn';
 import { formatPrice, BANGALORE_LOCATIONS, PROPERTY_TYPES, shouldShowFeatured } from '@/lib/utils';
 import { supabase } from '@/lib/supabase';
 import { Property } from '@/types';
@@ -98,78 +98,162 @@ export default function HomePage() {
   return (
     <main>
       {/* ── HERO ── */}
-      <section ref={heroRef} style={{ position: 'relative', height: '100svh', minHeight: 680, overflow: 'hidden' }}>
+      <section ref={heroRef} style={{ position: 'relative', height: '100svh', minHeight: 700, overflow: 'hidden' }}>
+
+        {/* Background slideshow with parallax */}
         <motion.div style={{ position: 'absolute', inset: 0, y: bgY }}>
           <AnimatePresence mode="sync">
             {HERO_IMGS.map((src, i) => i === heroIdx ? (
-              <motion.img key={src} src={src} alt="" aria-hidden style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover' }}
-                initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} transition={{ duration: 1.4, ease: 'easeInOut' }} />
+              <motion.img key={src} src={src} alt="" aria-hidden
+                style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover' }}
+                initial={{ opacity: 0, scale: 1.04 }}
+                animate={{ opacity: 1, scale: 1 }}
+                exit={{ opacity: 0 }}
+                transition={{ duration: 1.8, ease: [0.4, 0, 0.2, 1] }} />
             ) : null)}
           </AnimatePresence>
         </motion.div>
-        {/* Layered overlay — cinematic */}
-        <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(105deg, rgba(10,10,10,0.75) 0%, rgba(10,10,10,0.45) 55%, rgba(10,10,10,0.2) 100%)' }} />
-        <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(to top, rgba(10,10,10,0.6) 0%, transparent 40%)' }} />
 
+        {/* Cinematic overlay — dark left, lighter right */}
+        <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(110deg, rgba(10,10,10,0.82) 0%, rgba(10,10,10,0.55) 50%, rgba(10,10,10,0.25) 100%)' }} />
+        <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(to top, rgba(10,10,10,0.7) 0%, transparent 45%)' }} />
+
+        {/* Hero content — pure aspiration, no search */}
         <motion.div style={{ position: 'relative', zIndex: 10, height: '100%', display: 'flex', flexDirection: 'column', justifyContent: 'center', maxWidth: 'var(--max-w)', margin: '0 auto', padding: '0 var(--gutter)', opacity: fgO }}>
-          <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.7, delay: 0.3 }}>
-            <span style={{ ...B, fontSize: 11, fontWeight: 600, letterSpacing: '0.2em', textTransform: 'uppercase', color: 'var(--gold)', display: 'flex', alignItems: 'center', gap: 10, marginBottom: 24 }}>
-              <span style={{ width: 24, height: 1, background: 'var(--gold)', display: 'inline-block' }} />
+
+          {/* Overline */}
+          <motion.div
+            initial={{ opacity: 0, x: -16 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ duration: 0.7, delay: 0.4, ease: [0.16, 1, 0.3, 1] }}
+            style={{ display: 'flex', alignItems: 'center', gap: 12, marginBottom: 28 }}
+          >
+            <motion.span
+              initial={{ scaleX: 0 }}
+              animate={{ scaleX: 1 }}
+              transition={{ duration: 0.6, delay: 0.3, ease: [0.16, 1, 0.3, 1] }}
+              style={{ display: 'inline-block', width: 32, height: 1, background: 'var(--gold)', transformOrigin: 'left' }}
+            />
+            <span style={{ ...B, fontSize: 11, fontWeight: 600, letterSpacing: '0.22em', textTransform: 'uppercase', color: 'var(--gold)' }}>
               Bangalore&apos;s Premier Real Estate
             </span>
           </motion.div>
 
-          <motion.h1 initial={{ opacity: 0, y: 32 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.9, delay: 0.45, ease: [0.4, 0, 0.2, 1] }}
-            style={{ ...S, fontSize: 'clamp(38px, 5vw, 68px)', fontWeight: 400, lineHeight: 1.1, letterSpacing: '-0.025em', color: '#fff', maxWidth: 760, marginBottom: 20 }}>
-            Where Ambition<br />
-            <em style={{ fontStyle: 'italic', background: 'linear-gradient(120deg, var(--gold-light), var(--gold))', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', backgroundClip: 'text' }}>
-              Meets Home
-            </em>
-          </motion.h1>
+          {/* Headline */}
+          <div style={{ overflow: 'hidden', marginBottom: 8 }}>
+            <motion.h1
+              initial={{ opacity: 0, y: 48 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 1.0, delay: 0.55, ease: [0.16, 1, 0.3, 1] }}
+              style={{ ...S, fontSize: 'clamp(44px, 6.5vw, 88px)', fontWeight: 400, lineHeight: 1.0, letterSpacing: '-0.03em', color: '#fff', maxWidth: 820 }}
+            >
+              Where Ambition
+            </motion.h1>
+          </div>
+          <div style={{ overflow: 'hidden', marginBottom: 32 }}>
+            <motion.h1
+              initial={{ opacity: 0, y: 48 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 1.0, delay: 0.68, ease: [0.16, 1, 0.3, 1] }}
+              style={{ ...S, fontSize: 'clamp(44px, 6.5vw, 88px)', fontWeight: 400, lineHeight: 1.0, letterSpacing: '-0.03em', color: '#fff', maxWidth: 820 }}
+            >
+              <em style={{ fontStyle: 'italic', background: 'linear-gradient(120deg, var(--gold-light) 0%, var(--gold) 60%)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', backgroundClip: 'text' }}>
+                Meets Home
+              </em>
+            </motion.h1>
+          </div>
 
-          <motion.p initial={{ opacity: 0, y: 24 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8, delay: 0.6 }}
-            style={{ ...B, fontSize: 'clamp(14px, 1.2vw, 16px)', color: 'rgba(248,245,240,0.7)', maxWidth: 480, lineHeight: 1.75, marginBottom: 40 }}>
-            Discover handpicked residential and commercial properties across Bangalore&apos;s most coveted neighbourhoods.
+          {/* Subline */}
+          <motion.p
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, delay: 0.85, ease: [0.16, 1, 0.3, 1] }}
+            style={{ ...B, fontSize: 'clamp(15px, 1.3vw, 18px)', color: 'rgba(248,245,240,0.65)', maxWidth: 480, lineHeight: 1.75, marginBottom: 48 }}
+          >
+            Handpicked residential and commercial properties across Bangalore&apos;s most coveted neighbourhoods.
           </motion.p>
 
-          {/* Search */}
-          <motion.div initial={{ opacity: 0, y: 24 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8, delay: 0.75 }}
-            style={{ background: 'rgba(248,245,240,0.95)', backdropFilter: 'blur(20px)', border: '1px solid rgba(201,169,110,0.2)', padding: 6, display: 'flex', flexWrap: 'wrap', gap: 4, maxWidth: 640 }}>
-            <div style={{ flex: 1, minWidth: 140, display: 'flex', alignItems: 'center', gap: 8, padding: '10px 14px', background: 'white', border: '1px solid var(--cream-mid)' }}>
-              <MapPin size={14} strokeWidth={1.5} style={{ color: 'var(--gold)', flexShrink: 0 }} />
-              <select value={loc} onChange={e => setLoc(e.target.value)} style={{ ...B, background: 'transparent', border: 'none', outline: 'none', fontSize: 13, color: loc ? 'var(--black)' : 'var(--stone-light)', width: '100%', cursor: 'pointer' }}>
-                <option value="">Location</option>
-                {BANGALORE_LOCATIONS.map(l => <option key={l} value={l}>{l}</option>)}
-              </select>
-            </div>
-            <div style={{ flex: 1, minWidth: 120, display: 'flex', alignItems: 'center', gap: 8, padding: '10px 14px', background: 'white', border: '1px solid var(--cream-mid)' }}>
-              <Home size={14} strokeWidth={1.5} style={{ color: 'var(--gold)', flexShrink: 0 }} />
-              <select value={type} onChange={e => setType(e.target.value)} style={{ ...B, background: 'transparent', border: 'none', outline: 'none', fontSize: 13, color: type ? 'var(--black)' : 'var(--stone-light)', width: '100%', cursor: 'pointer' }}>
-                <option value="">Type</option>
-                {PROPERTY_TYPES.map(t => <option key={t} value={t}>{t.charAt(0).toUpperCase() + t.slice(1)}</option>)}
-              </select>
-            </div>
-            <Link href={`/listings${loc || type ? `?location=${loc}&type=${type}` : ''}`}
-              style={{ padding: '12px 24px', background: 'var(--black)', color: 'var(--cream)', display: 'flex', alignItems: 'center', gap: 8, ...B, fontSize: 12, fontWeight: 600, letterSpacing: '0.1em', textTransform: 'uppercase', flexShrink: 0, transition: 'background 0.2s ease' }}
-              onMouseEnter={e => (e.currentTarget.style.background = 'var(--charcoal)')}
-              onMouseLeave={e => (e.currentTarget.style.background = 'var(--black)')}>
-              <Search size={14} strokeWidth={2} /> Search
+          {/* CTAs */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, delay: 1.0, ease: [0.16, 1, 0.3, 1] }}
+            style={{ display: 'flex', flexWrap: 'wrap', gap: 12, marginBottom: 56 }}
+          >
+            <Link href="/listings"
+              style={{ ...B, display: 'inline-flex', alignItems: 'center', gap: 10, padding: '16px 36px', background: 'var(--gold)', color: 'var(--ink)', fontSize: 12, fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', transition: 'all 0.35s cubic-bezier(0.4,0,0.2,1)' }}
+              onMouseEnter={e => { const el = e.currentTarget as HTMLElement; el.style.background = 'var(--gold-light)'; el.style.transform = 'translateY(-2px)'; el.style.boxShadow = '0 8px 28px rgba(201,169,110,0.35)'; }}
+              onMouseLeave={e => { const el = e.currentTarget as HTMLElement; el.style.background = 'var(--gold)'; el.style.transform = 'translateY(0)'; el.style.boxShadow = 'none'; }}>
+              View Properties <MoveRight size={14} strokeWidth={2} />
             </Link>
+            <Link href="/contact"
+              style={{ ...B, display: 'inline-flex', alignItems: 'center', gap: 10, padding: '16px 36px', background: 'transparent', color: 'var(--cream)', fontSize: 12, fontWeight: 600, letterSpacing: '0.12em', textTransform: 'uppercase', border: '1px solid rgba(248,245,240,0.35)', transition: 'all 0.35s cubic-bezier(0.4,0,0.2,1)' }}
+              onMouseEnter={e => { const el = e.currentTarget as HTMLElement; el.style.background = 'rgba(248,245,240,0.1)'; el.style.borderColor = 'rgba(248,245,240,0.7)'; el.style.transform = 'translateY(-2px)'; }}
+              onMouseLeave={e => { const el = e.currentTarget as HTMLElement; el.style.background = 'transparent'; el.style.borderColor = 'rgba(248,245,240,0.35)'; el.style.transform = 'translateY(0)'; }}>
+              Private Consultation
+            </Link>
+          </motion.div>
+
+          {/* Trust signal */}
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 1.0, delay: 1.2 }}
+            style={{ display: 'flex', alignItems: 'center', gap: 24 }}
+          >
+            <div style={{ width: 1, height: 32, background: 'rgba(248,245,240,0.15)' }} />
+            <span style={{ ...B, fontSize: 12, color: 'rgba(248,245,240,0.45)', letterSpacing: '0.06em' }}>
+              500+ properties sold &nbsp;·&nbsp; 10+ years in Bangalore &nbsp;·&nbsp; 1,000+ families served
+            </span>
           </motion.div>
         </motion.div>
 
-        {/* Slide dots */}
-        <div style={{ position: 'absolute', bottom: 32, left: '50%', transform: 'translateX(-50%)', zIndex: 20, display: 'flex', gap: 8 }}>
+        {/* Slide indicator — bottom left */}
+        <div style={{ position: 'absolute', bottom: 36, left: 'var(--gutter)', zIndex: 20, display: 'flex', gap: 8 }}>
           {HERO_IMGS.map((_, i) => (
-            <button key={i} onClick={() => setHeroIdx(i)} style={{ width: i === heroIdx ? 24 : 6, height: 6, borderRadius: 3, background: i === heroIdx ? 'var(--gold)' : 'rgba(248,245,240,0.3)', border: 'none', cursor: 'pointer', transition: 'all 0.4s ease' }} />
+            <button key={i} onClick={() => setHeroIdx(i)}
+              style={{ width: i === heroIdx ? 28 : 6, height: 2, borderRadius: 1, background: i === heroIdx ? 'var(--gold)' : 'rgba(248,245,240,0.25)', border: 'none', cursor: 'pointer', transition: 'all 0.5s cubic-bezier(0.4,0,0.2,1)', padding: 0 }} />
           ))}
         </div>
 
-        {/* Scroll cue */}
+        {/* Scroll cue — bottom right */}
         <div style={{ position: 'absolute', bottom: 32, right: 'var(--gutter)', zIndex: 20, display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 8 }}>
-          <span style={{ ...B, fontSize: 9, letterSpacing: '0.2em', textTransform: 'uppercase', color: 'rgba(248,245,240,0.4)' }}>Scroll</span>
-          <div style={{ width: 1, height: 48, background: 'rgba(248,245,240,0.15)', overflow: 'hidden', position: 'relative' }}>
+          <span style={{ ...B, fontSize: 9, letterSpacing: '0.22em', textTransform: 'uppercase', color: 'rgba(248,245,240,0.35)' }}>Scroll</span>
+          <div style={{ width: 1, height: 52, background: 'rgba(248,245,240,0.12)', overflow: 'hidden', position: 'relative' }}>
             <div className="scroll-drop" style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '50%', background: 'var(--gold)' }} />
+          </div>
+        </div>
+      </section>
+
+      {/* ── SEARCH SECTION — below the fold ── */}
+      <section style={{ background: 'var(--black)', borderBottom: '1px solid rgba(201,169,110,0.1)' }}>
+        <div style={{ maxWidth: 'var(--max-w)', margin: '0 auto', padding: '0 var(--gutter)' }}>
+          <div style={{ display: 'flex', flexWrap: 'wrap', alignItems: 'stretch', gap: 0 }}>
+            {/* Location */}
+            <div style={{ flex: '1 1 180px', display: 'flex', alignItems: 'center', gap: 10, padding: '20px 24px', borderRight: '1px solid rgba(255,255,255,0.06)' }}>
+              <MapPin size={14} strokeWidth={1.5} style={{ color: 'var(--gold)', flexShrink: 0 }} />
+              <select value={loc} onChange={e => setLoc(e.target.value)}
+                style={{ ...B, background: 'transparent', border: 'none', outline: 'none', fontSize: 13, color: loc ? 'var(--cream)' : 'rgba(248,245,240,0.35)', width: '100%', cursor: 'pointer' }}>
+                <option value="">Any Location</option>
+                {BANGALORE_LOCATIONS.map(l => <option key={l} value={l}>{l}</option>)}
+              </select>
+            </div>
+            {/* Type */}
+            <div style={{ flex: '1 1 160px', display: 'flex', alignItems: 'center', gap: 10, padding: '20px 24px', borderRight: '1px solid rgba(255,255,255,0.06)' }}>
+              <Home size={14} strokeWidth={1.5} style={{ color: 'var(--gold)', flexShrink: 0 }} />
+              <select value={type} onChange={e => setType(e.target.value)}
+                style={{ ...B, background: 'transparent', border: 'none', outline: 'none', fontSize: 13, color: type ? 'var(--cream)' : 'rgba(248,245,240,0.35)', width: '100%', cursor: 'pointer' }}>
+                <option value="">Any Type</option>
+                {PROPERTY_TYPES.map(t => <option key={t} value={t}>{t.charAt(0).toUpperCase() + t.slice(1)}</option>)}
+              </select>
+            </div>
+            {/* CTA */}
+            <Link href={`/listings${loc || type ? `?location=${loc}&type=${type}` : ''}`}
+              style={{ ...B, display: 'flex', alignItems: 'center', gap: 10, padding: '20px 32px', background: 'var(--gold)', color: 'var(--ink)', fontSize: 11, fontWeight: 700, letterSpacing: '0.14em', textTransform: 'uppercase', flexShrink: 0, transition: 'background 0.25s ease', whiteSpace: 'nowrap' }}
+              onMouseEnter={e => (e.currentTarget.style.background = 'var(--gold-light)')}
+              onMouseLeave={e => (e.currentTarget.style.background = 'var(--gold)')}>
+              <Search size={13} strokeWidth={2} /> Search Properties
+            </Link>
           </div>
         </div>
       </section>
@@ -185,14 +269,10 @@ export default function HomePage() {
       <section style={{ background: 'var(--cream)', paddingBlock: 'var(--sp-15)' }}>
         <div style={{ maxWidth: 'var(--max-w)', margin: '0 auto', padding: '0 var(--gutter)' }}>
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end', marginBottom: 56, flexWrap: 'wrap', gap: 16 }}>
-            <AnimateIn direction="up">
-              <span style={{ ...B, fontSize: 11, fontWeight: 600, letterSpacing: '0.18em', textTransform: 'uppercase', color: 'var(--gold)', display: 'flex', alignItems: 'center', gap: 8, marginBottom: 12 }}>
-                <span style={{ width: 20, height: 1, background: 'var(--gold)', display: 'inline-block' }} />Featured Listings
-              </span>
-              <h2 style={{ ...S, fontSize: 'clamp(28px, 3.5vw, 44px)', fontWeight: 400, lineHeight: 1.1, letterSpacing: '-0.02em', color: 'var(--black)', maxWidth: 480 }}>
-                Exceptional Properties,<br />Carefully Chosen
-              </h2>
-            </AnimateIn>
+            <LuxuryReveal
+              overline="Featured Listings"
+              heading={<>Exceptional Properties,<br />Carefully Chosen</>}
+            />
             <AnimateIn direction="left" delay={0.1}>
               <Link href="/listings" style={{ ...B, display: 'inline-flex', alignItems: 'center', gap: 8, fontSize: 12, fontWeight: 600, letterSpacing: '0.1em', textTransform: 'uppercase', color: 'var(--black)', borderBottom: '1px solid var(--black)', paddingBottom: 2, transition: 'color 0.2s ease, border-color 0.2s ease' }}
                 onMouseEnter={e => { const el = e.currentTarget as HTMLElement; el.style.color = 'var(--gold)'; el.style.borderColor = 'var(--gold)'; }}
@@ -296,12 +376,11 @@ export default function HomePage() {
       <section style={{ background: 'var(--cream-warm)', paddingBlock: 'var(--sp-15)' }}>
         <div style={{ maxWidth: 'var(--max-w)', margin: '0 auto', padding: '0 var(--gutter)' }}>
           <div style={{ textAlign: 'center', marginBottom: 64 }}>
-            <AnimateIn direction="up">
-              <span style={{ ...B, fontSize: 11, fontWeight: 600, letterSpacing: '0.18em', textTransform: 'uppercase', color: 'var(--gold)', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 8, marginBottom: 16 }}>
-                <span style={{ width: 20, height: 1, background: 'var(--gold)', display: 'inline-block' }} />How It Works
-              </span>
-              <h2 style={{ ...S, fontSize: 'clamp(26px, 3vw, 40px)', fontWeight: 400, lineHeight: 1.15, letterSpacing: '-0.02em', color: 'var(--black)' }}>Your Journey to the Perfect Home</h2>
-            </AnimateIn>
+            <LuxuryReveal
+              overline="How It Works"
+              heading="Your Journey to the Perfect Home"
+              align="center"
+            />
           </div>
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(1, 1fr)', gap: 2 }} className="md:grid-cols-3">
             {PROCESS.map((step, i) => (
@@ -323,16 +402,18 @@ export default function HomePage() {
         <div style={{ maxWidth: 'var(--max-w)', margin: '0 auto', padding: '0 var(--gutter)' }}>
           <div style={{ display: 'grid', gridTemplateColumns: '1fr', gap: 64, alignItems: 'center' }} className="md:grid-cols-2">
             <AnimateIn direction="right">
-              <span style={{ ...B, fontSize: 11, fontWeight: 600, letterSpacing: '0.18em', textTransform: 'uppercase', color: 'var(--gold)', display: 'flex', alignItems: 'center', gap: 8, marginBottom: 20 }}>
-                <span style={{ width: 20, height: 1, background: 'var(--gold)', display: 'inline-block' }} />Why Choose Us
-              </span>
-              <h2 style={{ ...S, fontSize: 'clamp(26px, 3vw, 40px)', fontWeight: 400, lineHeight: 1.15, letterSpacing: '-0.02em', color: 'var(--black)', marginBottom: 20 }}>A Partner You Can Trust at Every Step</h2>
-              <p style={{ ...B, fontSize: 15, lineHeight: 1.75, color: 'var(--stone)', maxWidth: 420, marginBottom: 36 }}>We combine deep local expertise with a personalised approach to help you find not just a property, but a place you truly call home.</p>
-              <Link href="/about" style={{ ...B, display: 'inline-flex', alignItems: 'center', gap: 8, fontSize: 12, fontWeight: 600, letterSpacing: '0.1em', textTransform: 'uppercase', color: 'var(--black)', borderBottom: '1px solid var(--black)', paddingBottom: 2, transition: 'color 0.2s ease, border-color 0.2s ease' }}
-                onMouseEnter={e => { const el = e.currentTarget as HTMLElement; el.style.color = 'var(--gold)'; el.style.borderColor = 'var(--gold)'; }}
-                onMouseLeave={e => { const el = e.currentTarget as HTMLElement; el.style.color = 'var(--black)'; el.style.borderColor = 'var(--black)'; }}>
-                Learn About Us <MoveRight size={14} strokeWidth={2} />
-              </Link>
+              <LuxuryReveal
+                overline="Why Choose Us"
+                heading={<>A Partner You Can Trust<br />at Every Step</>}
+                body="We combine deep local expertise with a personalised approach to help you find not just a property, but a place you truly call home."
+                cta={
+                  <Link href="/about" style={{ ...B, display: 'inline-flex', alignItems: 'center', gap: 8, fontSize: 12, fontWeight: 600, letterSpacing: '0.1em', textTransform: 'uppercase', color: 'var(--black)', borderBottom: '1px solid var(--black)', paddingBottom: 2, transition: 'color 0.2s ease, border-color 0.2s ease' }}
+                    onMouseEnter={e => { const el = e.currentTarget as HTMLElement; el.style.color = 'var(--gold)'; el.style.borderColor = 'var(--gold)'; }}
+                    onMouseLeave={e => { const el = e.currentTarget as HTMLElement; el.style.color = 'var(--black)'; el.style.borderColor = 'var(--black)'; }}>
+                    Learn About Us <MoveRight size={14} strokeWidth={2} />
+                  </Link>
+                }
+              />
             </AnimateIn>
             <div style={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
               {WHY.map(({ Icon, title, desc }, i) => (
@@ -402,36 +483,27 @@ export default function HomePage() {
         </div>
         <div style={{ maxWidth: 'var(--max-w)', margin: '0 auto', padding: '0 var(--gutter)', position: 'relative', zIndex: 10, width: '100%' }}>
           <div style={{ maxWidth: 720 }}>
-            <AnimateIn direction="up" delay={0.1}>
-              <span style={{ ...B, fontSize: 11, fontWeight: 600, letterSpacing: '0.2em', textTransform: 'uppercase', color: 'var(--gold)', display: 'flex', alignItems: 'center', gap: 10, marginBottom: 28 }}>
-                <span style={{ width: 24, height: 1, background: 'var(--gold)', display: 'inline-block' }} />
-                Your Journey Begins Here
-              </span>
-            </AnimateIn>
-            <AnimateIn direction="up" delay={0.2}>
-              <h2 style={{ ...S, fontSize: 'clamp(36px, 5vw, 64px)', fontWeight: 400, lineHeight: 1.1, letterSpacing: '-0.03em', color: 'var(--cream)', marginBottom: 28 }}>
-                Ready to Find Your<br />Perfect Property?
-              </h2>
-            </AnimateIn>
-            <AnimateIn direction="up" delay={0.3}>
-              <p style={{ ...B, fontSize: 17, lineHeight: 1.75, color: 'rgba(247,244,238,0.75)', marginBottom: 44, maxWidth: 580 }}>
-                Let our experts guide you to the finest homes and investment opportunities across Bangalore. Your dream property is just a conversation away.
-              </p>
-            </AnimateIn>
-            <AnimateIn direction="up" delay={0.4}>
-              <div style={{ display: 'flex', flexWrap: 'wrap', gap: 12 }}>
-                <Link href="/listings" style={{ ...B, display: 'inline-flex', alignItems: 'center', gap: 10, padding: '16px 36px', background: 'var(--gold)', color: 'var(--ink)', fontSize: 12, fontWeight: 600, letterSpacing: '0.1em', textTransform: 'uppercase', transition: 'all 0.3s ease' }}
-                  onMouseEnter={e => { const el = e.currentTarget as HTMLElement; el.style.background = 'var(--gold-light)'; }}
-                  onMouseLeave={e => { const el = e.currentTarget as HTMLElement; el.style.background = 'var(--gold)'; }}>
-                  Browse Properties <MoveRight size={14} strokeWidth={2} />
-                </Link>
-                <Link href="/contact" style={{ ...B, display: 'inline-flex', alignItems: 'center', gap: 10, padding: '16px 36px', background: 'transparent', color: 'var(--cream)', fontSize: 12, fontWeight: 600, letterSpacing: '0.1em', textTransform: 'uppercase', border: '1px solid rgba(247,244,238,0.3)', transition: 'all 0.3s ease' }}
-                  onMouseEnter={e => { const el = e.currentTarget as HTMLElement; el.style.background = 'rgba(247,244,238,0.1)'; el.style.borderColor = 'var(--cream)'; }}
-                  onMouseLeave={e => { const el = e.currentTarget as HTMLElement; el.style.background = 'transparent'; el.style.borderColor = 'rgba(247,244,238,0.3)'; }}>
-                  Schedule Consultation <ArrowDown size={14} strokeWidth={2} style={{ transform: 'rotate(-45deg)' }} />
-                </Link>
-              </div>
-            </AnimateIn>
+            <LuxuryReveal
+              dark
+              overline="Your Journey Begins Here"
+              heading={<>Ready to Find Your<br />Perfect Property?</>}
+              headingSize="clamp(36px, 5vw, 64px)"
+              body="Let our experts guide you to the finest homes and investment opportunities across Bangalore. Your dream property is just a conversation away."
+              cta={
+                <div style={{ display: 'flex', flexWrap: 'wrap', gap: 12 }}>
+                  <Link href="/listings" style={{ ...B, display: 'inline-flex', alignItems: 'center', gap: 10, padding: '16px 36px', background: 'var(--gold)', color: 'var(--ink)', fontSize: 12, fontWeight: 600, letterSpacing: '0.1em', textTransform: 'uppercase', transition: 'all 0.3s ease' }}
+                    onMouseEnter={e => { const el = e.currentTarget as HTMLElement; el.style.background = 'var(--gold-light)'; el.style.transform = 'translateY(-2px)'; el.style.boxShadow = '0 8px 28px rgba(201,169,110,0.35)'; }}
+                    onMouseLeave={e => { const el = e.currentTarget as HTMLElement; el.style.background = 'var(--gold)'; el.style.transform = 'translateY(0)'; el.style.boxShadow = 'none'; }}>
+                    Browse Properties <MoveRight size={14} strokeWidth={2} />
+                  </Link>
+                  <Link href="/contact" style={{ ...B, display: 'inline-flex', alignItems: 'center', gap: 10, padding: '16px 36px', background: 'transparent', color: 'var(--cream)', fontSize: 12, fontWeight: 600, letterSpacing: '0.1em', textTransform: 'uppercase', border: '1px solid rgba(247,244,238,0.3)', transition: 'all 0.3s ease' }}
+                    onMouseEnter={e => { const el = e.currentTarget as HTMLElement; el.style.background = 'rgba(247,244,238,0.1)'; el.style.borderColor = 'var(--cream)'; }}
+                    onMouseLeave={e => { const el = e.currentTarget as HTMLElement; el.style.background = 'transparent'; el.style.borderColor = 'rgba(247,244,238,0.3)'; }}>
+                    Schedule Consultation <ArrowDown size={14} strokeWidth={2} style={{ transform: 'rotate(-45deg)' }} />
+                  </Link>
+                </div>
+              }
+            />
           </div>
         </div>
       </section>
