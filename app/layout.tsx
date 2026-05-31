@@ -3,6 +3,7 @@ import "./globals.css";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import WhatsAppButton from "@/components/WhatsAppButton";
+import CookieBanner from "@/components/CookieBanner";
 
 // Luxury fonts
 import { Cormorant_Garamond, Outfit } from 'next/font/google';
@@ -37,6 +38,7 @@ export default function RootLayout({
         {children}
         <Footer />
         <WhatsAppButton />
+        <CookieBanner />
       </body>
     </html>
   );
