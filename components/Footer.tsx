@@ -1,4 +1,4 @@
-'use client';
+﻿'use client';
 
 import Link from 'next/link';
 import { Phone, Mail, MapPin } from 'lucide-react';
@@ -13,12 +13,12 @@ export default function Footer() {
       <div style={{ maxWidth: 'var(--max-w)', margin: '0 auto', padding: '80px var(--gutter) 0' }}>
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(12, 1fr)', gap: 32, paddingBottom: 64, borderBottom: '1px solid rgba(255,255,255,0.06)' }}>
 
-          {/* Brand — 4 cols */}
+          {/* Brand â€” 4 cols */}
           <div style={{ gridColumn: 'span 12' }} className="lg:col-span-4">
             <div style={{ gridColumn: '1 / 5' }}>
               <div style={{ marginBottom: 24 }}>
                 <div style={{ fontFamily: 'var(--font-heading)', fontSize: 26, fontWeight: 500, color: 'var(--cream)', letterSpacing: '-0.01em', marginBottom: 4 }}>Akshathaa</div>
-                <div style={{ fontFamily: 'var(--font-body)', fontSize: 9, fontWeight: 600, letterSpacing: '0.25em', textTransform: 'uppercase', color: 'var(--gold)' }}>Ventures · Premium Real Estate</div>
+                <div style={{ fontFamily: 'var(--font-body)', fontSize: 9, fontWeight: 600, letterSpacing: '0.25em', textTransform: 'uppercase', color: 'var(--gold)' }}>Ventures Â· Premium Real Estate</div>
               </div>
               <p style={{ fontFamily: 'var(--font-body)', fontSize: 14, lineHeight: 1.75, color: 'rgba(248,245,240,0.45)', maxWidth: 300 }}>
                 Bangalore's trusted partner for premium residential and commercial properties. Curated for those who demand the finest.
@@ -35,7 +35,7 @@ export default function Footer() {
             </div>
           </div>
 
-          {/* Quick links — 2 cols */}
+          {/* Quick links â€” 2 cols */}
           <div style={{ gridColumn: 'span 6' }} className="md:col-span-2">
             <p style={{ fontFamily: 'var(--font-body)', fontSize: 10, fontWeight: 700, letterSpacing: '0.18em', textTransform: 'uppercase', color: 'var(--gold)', marginBottom: 24 }}>Navigation</p>
             <div style={{ display: 'flex', flexDirection: 'column', gap: 14 }}>
@@ -49,7 +49,7 @@ export default function Footer() {
             </div>
           </div>
 
-          {/* Property types — 2 cols */}
+          {/* Property types â€” 2 cols */}
           <div style={{ gridColumn: 'span 6' }} className="md:col-span-2">
             <p style={{ fontFamily: 'var(--font-body)', fontSize: 10, fontWeight: 700, letterSpacing: '0.18em', textTransform: 'uppercase', color: 'var(--gold)', marginBottom: 24 }}>Properties</p>
             <div style={{ display: 'flex', flexDirection: 'column', gap: 14 }}>
@@ -63,7 +63,7 @@ export default function Footer() {
             </div>
           </div>
 
-          {/* Contact — 4 cols */}
+          {/* Contact â€” 4 cols */}
           <div style={{ gridColumn: 'span 12' }} className="md:col-span-4">
             <p style={{ fontFamily: 'var(--font-body)', fontSize: 10, fontWeight: 700, letterSpacing: '0.18em', textTransform: 'uppercase', color: 'var(--gold)', marginBottom: 24 }}>Contact</p>
             <div style={{ display: 'flex', flexDirection: 'column', gap: 18 }}>
@@ -108,16 +108,21 @@ export default function Footer() {
             &copy; {year} Akshathaa Ventures. All rights reserved.
           </p>
           <div style={{ display: 'flex', gap: 24 }}>
-            {['Privacy Policy', 'Terms of Service', 'RERA Compliance'].map(l => (
-              <a key={l} href="#" style={{ fontFamily: 'var(--font-body)', fontSize: 12, color: 'rgba(248,245,240,0.25)', transition: 'color 0.2s ease' }}
-                onMouseEnter={e => (e.currentTarget.style.color = 'rgba(248,245,240,0.6)')}
-                onMouseLeave={e => (e.currentTarget.style.color = 'rgba(248,245,240,0.25)')}>
-                {l}
-              </a>
-            ))}
+            {['Privacy Policy', 'Cookie Policy', 'RERA Compliance'].map(l => {
+              const href = l === 'Privacy Policy' ? '/privacy-policy' : l === 'Cookie Policy' ? '/cookie-policy' : '#';
+              return (
+                <Link key={l} href={href}
+                  style={{ fontFamily: 'var(--font-body)', fontSize: 12, color: 'rgba(248,245,240,0.25)', transition: 'color 0.2s ease' }}
+                  onMouseEnter={e => (e.currentTarget.style.color = 'rgba(248,245,240,0.6)')}
+                  onMouseLeave={e => (e.currentTarget.style.color = 'rgba(248,245,240,0.25)')}>
+                  {l}
+                </Link>
+              );
+            })}
           </div>
         </div>
       </div>
     </footer>
   );
 }
+
