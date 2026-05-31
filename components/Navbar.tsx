@@ -46,13 +46,13 @@ export default function Navbar() {
           boxShadow: solid ? '0 1px 12px rgba(10,10,10,0.04)' : 'none',
         }}
       >
-        <div style={{ maxWidth: 'var(--max-w)', margin: '0 auto', padding: '0 var(--gutter)', height: 72, display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+        <div style={{ maxWidth: 'var(--max-w)', margin: '0 auto', padding: '0 clamp(16px, 4vw, 80px)', height: 72, display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 16 }}>
 
           {/* Logo */}
-          <Link href="/" style={{ display: 'flex', flexDirection: 'column', lineHeight: 1, gap: 2 }}>
+          <Link href="/" style={{ display: 'flex', flexDirection: 'column', lineHeight: 1, gap: 2, flexShrink: 0 }}>
             <span style={{
               fontFamily: 'var(--font-heading)',
-              fontSize: 22,
+              fontSize: 'clamp(17px, 3vw, 22px)',
               fontWeight: 500,
               letterSpacing: '-0.01em',
               color: solid ? 'var(--black)' : '#fff',
@@ -72,7 +72,7 @@ export default function Navbar() {
             </span>
           </Link>
 
-          {/* Desktop nav */}
+          {/* Desktop nav — hidden on mobile */}
           <nav style={{ display: 'flex', alignItems: 'center', gap: 40 }} className="hidden md:flex">
             {NAV.map(link => {
               const active = pathname === link.href;
