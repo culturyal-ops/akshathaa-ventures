@@ -82,7 +82,7 @@ export default function Navbar() {
           </Link>
 
           {/* Desktop nav */}
-          <nav className="hidden md:flex" style={{ alignItems: 'center', gap: 40, display: 'flex' }}>
+          <nav className="hidden md:flex" style={{ alignItems: 'center', gap: 40 }}>
             {NAV.map(link => {
               const active = pathname === link.href;
               return (
